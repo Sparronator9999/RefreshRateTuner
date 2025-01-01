@@ -1,4 +1,4 @@
-﻿namespace RefreshRateTuner
+namespace RefreshRateTuner
 {
     internal class DisplaySettings
     {
