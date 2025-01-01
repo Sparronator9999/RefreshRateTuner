@@ -1,0 +1,54 @@
+name: Build Program
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "**.cs"
+      - "**.csproj"
+      - "**.resx"
+      - "**build.yml"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        config: [Debug, Release]
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+
+    - name: Get short commit hash
+      uses: benjlevesque/short-sha@v3.0
+      with:
+        variable_name: sha_short
+
+    - name: Setup MSBuild path
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2
+
+    - name: Restore cached NuGet packages
+      uses: actions/cache@v4
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+
+    - name: Restore solution (including NuGet packages for solution)
+      run: msbuild.exe /t:restore /p:configuration="${{ matrix.config }}" /p:RestoreLockedMode=true
+
+    - name: Build solution
+      run: msbuild.exe RefreshRateTuner.sln /nologo /nr:false /p:DeployOnBuild=true /p:platform="Any CPU" /p:configuration="${{ matrix.config }}"
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: "YAMDCC-${{ github.ref_name }}-${{ env.sha_short }}-${{ matrix.config }}"
+        path: "./RefreshRateTuner/bin/${{ matrix.config }}/net48/"
+        compression-level: 9
