@@ -49,6 +49,6 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:
-        name: "YAMDCC-${{ github.ref_name }}-${{ env.sha_short }}-${{ matrix.config }}"
+        name: "RefreshRateTuner-${{ github.ref_name }}-${{ env.sha_short }}-${{ matrix.config }}"
         path: "./RefreshRateTuner/bin/${{ matrix.config }}/net48/"
         compression-level: 9
