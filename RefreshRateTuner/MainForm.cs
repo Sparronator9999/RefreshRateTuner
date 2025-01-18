@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RefreshRateTuner
@@ -15,7 +14,7 @@ namespace RefreshRateTuner
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
            "Sparronator9999", "RefreshRateTuner", "CurrentConfig.xml");
 
-        private RefreshRateConfig Config;
+        private readonly RefreshRateConfig Config;
 
         private readonly List<int> RefreshRates = [];
 
@@ -35,8 +34,9 @@ namespace RefreshRateTuner
             if (e.Mode == PowerModes.StatusChange)
             {
                 // we shouldn't run time-consuming operations on this thread,
-                // so start a background thread to change the refresh rate
-                Task.Run(() => Invoke(() => ApplyRefreshRate()));
+                // so change refresh rate on the UI thread instead
+                // (same as when applying from "Apply" button)
+                Invoke(() => ApplyRefreshRate());
             }
         }
 
