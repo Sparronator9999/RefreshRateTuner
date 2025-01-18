@@ -21,10 +21,9 @@ Any computer or laptop with a display that has more than one refresh rate.
 
 ## Roadmap
 
-- [ ] Save selected refresh rates between sessions
+- [x] Save selected refresh rates between sessions
 - [ ] System startup support
 - [ ] Minimise to system tray
-
 
 ## FAQ
 

@@ -2,17 +2,30 @@ using Microsoft.Win32;
 using RefreshRateTuner.Win32;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace RefreshRateTuner
 {
-    internal partial class MainForm : Form, IDisposable
+    internal partial class MainForm : Form
     {
-        private readonly List<int> RefreshRates = new List<int>();
+        private static readonly string ConfPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+           "Sparronator9999", "RefreshRateTuner", "CurrentConfig.xml");
+
+        private RefreshRateConfig Config;
+
+        private readonly List<int> RefreshRates = [];
 
         public MainForm()
         {
             InitializeComponent();
+
+            Config = RefreshRateConfig.Load(ConfPath);
+            chkBattery.Checked = Config.ChangeOnBattery;
+
             RefreshDisplaySettings();
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
         }
@@ -21,7 +34,9 @@ namespace RefreshRateTuner
         {
             if (e.Mode == PowerModes.StatusChange)
             {
-                ApplyRefreshRate();
+                // we shouldn't run time-consuming operations on this thread,
+                // so start a background thread to change the refresh rate
+                Task.Run(() => Invoke(() => ApplyRefreshRate()));
             }
         }
 
@@ -34,7 +49,10 @@ namespace RefreshRateTuner
                 {
                     cboDisplay.Items.Add(devName);
                 }
-                else break;
+                else
+                {
+                    break;
+                }
             }
             cboDisplay.SelectedIndex = 0;
         }
@@ -48,6 +66,7 @@ namespace RefreshRateTuner
         {
             RefreshRates.Clear();
             cboRateAC.Items.Clear();
+            cboRateDC.Items.Clear();
 
             DisplaySettings current = User32.EnumDisplaySettings(cboDisplay.Text, User32.ENUM_CURRENT_SETTINGS);
             for (int i = 0; ; i++)
@@ -71,22 +90,28 @@ namespace RefreshRateTuner
                 cboRateDC.Items.Add(rate);
             }
 
-            // set current refresh rate for AC and lowest refresh rate for DC
-            cboRateAC.SelectedIndex = RefreshRates.IndexOf(current.RefreshRate);
-            cboRateDC.SelectedIndex = 0;
+            if (RefreshRates.Contains(Config.RefreshRateAC) && RefreshRates.Contains(Config.RefreshRateDC))
+            {
+                cboRateAC.SelectedIndex = RefreshRates.IndexOf(Config.RefreshRateAC);
+                cboRateDC.SelectedIndex = RefreshRates.IndexOf(Config.RefreshRateDC);
+            }
+            else
+            {
+                // set current refresh rate for AC and lowest refresh rate for DC
+                cboRateAC.SelectedIndex = RefreshRates.IndexOf(current.RefreshRate);
+                cboRateDC.SelectedIndex = 0;
+            }
         }
 
         private void btnApply_Click(object sender, EventArgs e)
         {
+            Config.Save(ConfPath);
             ApplyRefreshRate();
         }
 
         private void chkBattery_CheckedChanged(object sender, EventArgs e)
         {
-            if (sender is CheckBox c)
-            {
-                cboRateDC.Enabled = lblDC.Enabled = c.Checked;
-            }
+            cboRateDC.Enabled = lblDC.Enabled = ((CheckBox)sender).Checked;
         }
 
         private void ApplyRefreshRate()
@@ -118,6 +143,16 @@ namespace RefreshRateTuner
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
+        }
+
+        private void cboRateAC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.RefreshRateAC = int.Parse(cboRateAC.Text, CultureInfo.InvariantCulture);
+        }
+
+        private void cboRateDC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.RefreshRateDC = int.Parse(cboRateDC.Text, CultureInfo.InvariantCulture);
         }
     }
 }

@@ -38,9 +38,9 @@ namespace RefreshRateTuner
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            //
+            // 
             // cboDisplay
-            //
+            // 
             this.cboDisplay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboDisplay.FormattingEnabled = true;
             this.cboDisplay.Location = new System.Drawing.Point(69, 12);
@@ -49,9 +49,9 @@ namespace RefreshRateTuner
             this.cboDisplay.Size = new System.Drawing.Size(150, 23);
             this.cboDisplay.TabIndex = 0;
             this.cboDisplay.SelectedIndexChanged += new System.EventHandler(this.cboDisplay_SelectedIndexChanged);
-            //
+            // 
             // cboRateAC
-            //
+            // 
             this.cboRateAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRateAC.FormattingEnabled = true;
             this.cboRateAC.Location = new System.Drawing.Point(115, 66);
@@ -59,9 +59,10 @@ namespace RefreshRateTuner
             this.cboRateAC.Name = "cboRateAC";
             this.cboRateAC.Size = new System.Drawing.Size(185, 23);
             this.cboRateAC.TabIndex = 1;
-            //
+            this.cboRateAC.SelectedIndexChanged += new System.EventHandler(this.cboRateAC_SelectedIndexChanged);
+            // 
             // cboRateDC
-            //
+            // 
             this.cboRateDC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRateDC.Enabled = false;
             this.cboRateDC.FormattingEnabled = true;
@@ -70,9 +71,10 @@ namespace RefreshRateTuner
             this.cboRateDC.Name = "cboRateDC";
             this.cboRateDC.Size = new System.Drawing.Size(185, 23);
             this.cboRateDC.TabIndex = 2;
-            //
+            this.cboRateDC.SelectedIndexChanged += new System.EventHandler(this.cboRateDC_SelectedIndexChanged);
+            // 
             // lblDisplay
-            //
+            // 
             this.lblDisplay.AutoSize = true;
             this.lblDisplay.Location = new System.Drawing.Point(13, 15);
             this.lblDisplay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -80,9 +82,9 @@ namespace RefreshRateTuner
             this.lblDisplay.Size = new System.Drawing.Size(48, 15);
             this.lblDisplay.TabIndex = 3;
             this.lblDisplay.Text = "Display:";
-            //
+            // 
             // lblAC
-            //
+            // 
             this.lblAC.AutoSize = true;
             this.lblAC.Location = new System.Drawing.Point(13, 69);
             this.lblAC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -90,9 +92,9 @@ namespace RefreshRateTuner
             this.lblAC.Size = new System.Drawing.Size(94, 15);
             this.lblAC.TabIndex = 4;
             this.lblAC.Text = "Plugged in (AC):";
-            //
+            // 
             // lblDC
-            //
+            // 
             this.lblDC.AutoSize = true;
             this.lblDC.Enabled = false;
             this.lblDC.Location = new System.Drawing.Point(14, 98);
@@ -101,9 +103,9 @@ namespace RefreshRateTuner
             this.lblDC.Size = new System.Drawing.Size(93, 15);
             this.lblDC.TabIndex = 5;
             this.lblDC.Text = "On battery (DC):";
-            //
+            // 
             // chkBattery
-            //
+            // 
             this.chkBattery.AutoSize = true;
             this.chkBattery.Location = new System.Drawing.Point(13, 41);
             this.chkBattery.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -113,9 +115,9 @@ namespace RefreshRateTuner
             this.chkBattery.Text = "Change refresh rate on battery";
             this.chkBattery.UseVisualStyleBackColor = true;
             this.chkBattery.CheckedChanged += new System.EventHandler(this.chkBattery_CheckedChanged);
-            //
+            // 
             // btnRefresh
-            //
+            // 
             this.btnRefresh.Location = new System.Drawing.Point(226, 12);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
@@ -123,9 +125,9 @@ namespace RefreshRateTuner
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            //
+            // 
             // btnApply
-            //
+            // 
             this.btnApply.Location = new System.Drawing.Point(226, 132);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
@@ -133,9 +135,9 @@ namespace RefreshRateTuner
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
-            //
+            // 
             // MainForm
-            //
+            // 
             this.AcceptButton = this.btnApply;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
