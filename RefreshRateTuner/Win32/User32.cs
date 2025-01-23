@@ -2,16 +2,21 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
+// DefaultDllImportSearchPaths not supported by old .NET framework...
+#if NET45_OR_GREATER || NETCOREAPP
+[assembly: DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+#endif
+
 namespace RefreshRateTuner.Win32
 {
-    internal class User32
+    internal sealed class User32
     {
         public const int ENUM_CURRENT_SETTINGS = -1;
         public const int ENUM_REGISTRY_SETTINGS = -2;
 
         [DllImport("user32.dll", SetLastError = true, ExactSpelling = true,
             CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayDevicesW")]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool EnumDisplayDevices(
             [MarshalAs(UnmanagedType.LPWStr)] string lpDevice,
             int iDevNum,
@@ -23,19 +28,23 @@ namespace RefreshRateTuner.Win32
             int devNum,
             out string devName)
         {
-            DisplayDevice dispDev = new DisplayDevice
+            DisplayDevice dispDev = new()
             {
+#if NET451_OR_GREATER || NETCOREAPP
+                cb = Marshal.SizeOf<DisplayDevice>(),
+#else
                 cb = Marshal.SizeOf(typeof(DisplayDevice)),
+#endif
             };
 
-            bool success = EnumDisplayDevices(device, devNum, ref dispDev, 0);
+                bool success = EnumDisplayDevices(device, devNum, ref dispDev, 0);
             devName = dispDev.DeviceName;
             return success;
         }
 
         [DllImport("user32.dll", SetLastError = true, ExactSpelling = true,
             CharSet = CharSet.Unicode, EntryPoint = "EnumDisplaySettingsW")]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool EnumDisplaySettings(
             [MarshalAs(UnmanagedType.LPWStr)] string devName,
             int mode,
@@ -45,9 +54,13 @@ namespace RefreshRateTuner.Win32
             string devName,
             int mode)
         {
-            DeviceMode devMode = new DeviceMode
+            DeviceMode devMode = new()
             {
+#if NET451_OR_GREATER || NETCOREAPP
+                Size = (ushort)Marshal.SizeOf<DeviceMode>(),
+#else
                 Size = (ushort)Marshal.SizeOf(typeof(DeviceMode)),
+#endif
                 DriverExtra = 0,
             };
 
@@ -65,22 +78,25 @@ namespace RefreshRateTuner.Win32
 
         [DllImport("user32.dll", SetLastError = true, ExactSpelling = true,
             CharSet = CharSet.Unicode, EntryPoint = "ChangeDisplaySettingsExW")]
-        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
         private static extern DispChange ChangeDisplaySettingsEx(
-            [MarshalAs(UnmanagedType.LPWStr)] string deviceName,
+        [MarshalAs(UnmanagedType.LPWStr)] string deviceName,
             [MarshalAs(UnmanagedType.Struct)] ref DeviceMode devMode,
             IntPtr hwnd,
-            ChangeDisplaySettingsFlags flags,
+            CDSFlags flags,
             IntPtr lParam);
 
         public static DispChange ChangeRefreshRate(
             [MarshalAs(UnmanagedType.LPWStr)] string deviceName,
             int refreshRate,
-            ChangeDisplaySettingsFlags flags)
+            CDSFlags flags)
         {
-            DeviceMode devMode = new DeviceMode
+            DeviceMode devMode = new()
             {
+#if NET451_OR_GREATER || NETCOREAPP
+                Size = (ushort)Marshal.SizeOf<DeviceMode>(),
+#else
                 Size = (ushort)Marshal.SizeOf(typeof(DeviceMode)),
+#endif
                 DriverExtra = 0,
                 DisplayFrequency = refreshRate,
                 Fields = DM.DisplayFrequency,
@@ -99,7 +115,7 @@ namespace RefreshRateTuner.Win32
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
             public string DeviceString;
 
-            public DisplayDeviceStateFlags StateFlags;
+            public int StateFlags;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
             public string DeviceID;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
@@ -107,7 +123,7 @@ namespace RefreshRateTuner.Win32
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
-        public struct DeviceMode
+        private struct DeviceMode
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string DeviceName;
@@ -148,21 +164,7 @@ namespace RefreshRateTuner.Win32
         }
 
         [Flags]
-        public enum DisplayDeviceStateFlags
-        {
-            AttachedToDesktop = 0x1,
-            MultiDriver = 0x2,
-            PrimaryDevice = 0x4,
-            MirroringDriver = 0x8,
-            VGACompatible = 0x10,
-            Removable = 0x20,
-            Disconnect = 0x2000000,
-            Remote = 0x4000000,
-            ModesPruned = 0x8000000,
-        }
-
-        [Flags]
-        public enum DM
+        private enum DM
         {
             Orientation = 0x1,
             PaperSize = 0x2,
@@ -195,25 +197,25 @@ namespace RefreshRateTuner.Win32
             PanningHeight = 0x10000000,
             DisplayFixedOutput = 0x20000000
         }
-
-        public enum ChangeDisplaySettingsFlags : uint
-        {
-            None = 0,
-            UpdateRegistry = 0x00000001,
-            Test = 0x00000002,
-            FullScreen = 0x00000004,
-            Global = 0x00000008,
-            SetPrimary = 0x00000010,
-            VideoParameters = 0x00000020,
-            EnableUnsafeModes = 0x00000100,
-            DisableUnsafeModes = 0x00000200,
-            NoReset = 0x10000000,
-            ResetEx = 0x20000000,
-            Reset = 0x40000000,
-        }
     }
 
-    public enum DispChange
+    internal enum CDSFlags : uint
+    {
+        None = 0,
+        UpdateRegistry = 0x00000001,
+        Test = 0x00000002,
+        FullScreen = 0x00000004,
+        Global = 0x00000008,
+        SetPrimary = 0x00000010,
+        VideoParameters = 0x00000020,
+        EnableUnsafeModes = 0x00000100,
+        DisableUnsafeModes = 0x00000200,
+        NoReset = 0x10000000,
+        ResetEx = 0x20000000,
+        Reset = 0x40000000,
+    }
+
+    internal enum DispChange
     {
         Successful = 0,
         Restart = 1,

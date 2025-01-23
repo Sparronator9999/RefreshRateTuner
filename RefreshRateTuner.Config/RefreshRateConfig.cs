@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace RefreshRateTuner
+namespace RefreshRateTuner.Config
 {
     public sealed class RefreshRateConfig
     {
@@ -13,14 +14,8 @@ namespace RefreshRateTuner
         [XmlAttribute]
         public int Ver { get; set; } = ExpectedVer;
 
-        [XmlElement]
-        public bool ChangeOnBattery { get; set; }
-
-        [XmlElement]
-        public int RefreshRateAC { get; set; }
-
-        [XmlElement]
-        public int RefreshRateDC { get; set; }
+        [XmlArray]
+        public List<DispConf> DispConfs { get; set; } = [];
 
         public static RefreshRateConfig Load(string path)
         {

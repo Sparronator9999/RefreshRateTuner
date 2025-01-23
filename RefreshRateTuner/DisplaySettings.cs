@@ -1,6 +1,6 @@
 namespace RefreshRateTuner
 {
-    internal class DisplaySettings
+    internal sealed class DisplaySettings
     {
         public string Name;
         public int BitsPerPixel;

@@ -48,7 +48,7 @@ namespace RefreshRateTuner
             this.cboDisplay.Name = "cboDisplay";
             this.cboDisplay.Size = new System.Drawing.Size(150, 23);
             this.cboDisplay.TabIndex = 0;
-            this.cboDisplay.SelectedIndexChanged += new System.EventHandler(this.cboDisplay_SelectedIndexChanged);
+            this.cboDisplay.SelectedIndexChanged += new System.EventHandler(this.DisplayChanged);
             // 
             // cboRateAC
             // 
@@ -59,7 +59,7 @@ namespace RefreshRateTuner
             this.cboRateAC.Name = "cboRateAC";
             this.cboRateAC.Size = new System.Drawing.Size(185, 23);
             this.cboRateAC.TabIndex = 1;
-            this.cboRateAC.SelectedIndexChanged += new System.EventHandler(this.cboRateAC_SelectedIndexChanged);
+            this.cboRateAC.SelectedIndexChanged += new System.EventHandler(this.ACRateChanged);
             // 
             // cboRateDC
             // 
@@ -71,7 +71,7 @@ namespace RefreshRateTuner
             this.cboRateDC.Name = "cboRateDC";
             this.cboRateDC.Size = new System.Drawing.Size(185, 23);
             this.cboRateDC.TabIndex = 2;
-            this.cboRateDC.SelectedIndexChanged += new System.EventHandler(this.cboRateDC_SelectedIndexChanged);
+            this.cboRateDC.SelectedIndexChanged += new System.EventHandler(this.DCRateChanged);
             // 
             // lblDisplay
             // 
@@ -114,7 +114,7 @@ namespace RefreshRateTuner
             this.chkBattery.TabIndex = 6;
             this.chkBattery.Text = "Change refresh rate on battery";
             this.chkBattery.UseVisualStyleBackColor = true;
-            this.chkBattery.CheckedChanged += new System.EventHandler(this.chkBattery_CheckedChanged);
+            this.chkBattery.CheckedChanged += new System.EventHandler(this.BatteryRateToggle);
             // 
             // btnRefresh
             // 
@@ -158,7 +158,7 @@ namespace RefreshRateTuner
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Refresh Rate Tuner";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
