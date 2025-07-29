@@ -76,7 +76,7 @@ namespace RefreshRateTuner
         {
             // 0x112 = WM_SYSCOMMAND, 0xF020 == SC_MINIMIZE
             if (m.Msg == 0x112 && (m.WParam.ToInt32() & 0xfff0) == 0xF020)
-            {    
+            {
                 Hide();
                 return;
             }

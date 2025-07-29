@@ -12,26 +12,30 @@ A lightweight screen refresh rate changer for Windows.
   when running on battery to save power.
 - **Multi-display support:** Refresh Rate Tuner can automatically apply refresh
   rates for multiple connected displays.
-- **Lightweight:** Refresh Rate Tuner is only a few KB in size, and is
-  designed to be light on your laptop's CPU.
-
-This feature list will grow as more features are added (see the [disclaimer](#disclaimer)).
+- **Lightweight:** The Refresh Rate Tuner executable is only 30 KB in size, and
+  is designed to be light on your laptop's CPU.
+- **System startup support:** Refresh Rate Tuner starts up with your computer
+  and automatically applies your previous refresh rate settings.
 
 ## Supported systems
 
 Any computer or laptop with a display that has more than one refresh rate.
 
+If your display only supports one refresh rate, you can try using
+[Custom Resolution Utility](https://customresolutionutility.net/) to add more. **(Use at your own risk!)**
+
 ## Roadmap
 
-- [x] Save selected refresh rates between sessions
-- [ ] System startup support
-- [ ] Minimise to system tray
+No new features are currently planned.
 
 ## FAQ
 
 ### What versions of Windows will this run on?
 
-In theory, any version of Windows that can run any .NET version supported by this project (either .NET Framework 3.5 or 4.8, or .NET 8), i.e. Windows XP SP2 or later (since it is .NET Framework 3.5's minimum supported Windows version). x86, x64, and ARM architectures should all work (where supported by the OS/.NET version).
+In theory, any version of Windows that can run any .NET version supported by
+this project (either .NET Framework 3.5 or 4.8, or .NET 8), i.e. Windows XP SP2
+or later (since it is .NET Framework 3.5's minimum supported Windows version).
+x86, x64, and ARM architectures should all work (where supported by the OS/.NET version).
 
 ### What versions of Windows do you support?
 
