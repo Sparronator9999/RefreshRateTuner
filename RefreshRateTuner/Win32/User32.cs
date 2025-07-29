@@ -9,21 +9,27 @@ using System.Runtime.InteropServices;
 
 namespace RefreshRateTuner.Win32
 {
-    internal sealed class User32
+    internal static class User32
     {
+        [DllImport("User32")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("User32")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
         public const int ENUM_CURRENT_SETTINGS = -1;
         public const int ENUM_REGISTRY_SETTINGS = -2;
 
-        [DllImport("user32.dll", SetLastError = true, ExactSpelling = true,
-            CharSet = CharSet.Unicode, EntryPoint = "EnumDisplayDevicesW")]
+        [DllImport("User32", SetLastError = true, ExactSpelling = true,
+            CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool EnumDisplayDevices(
+        private static extern bool EnumDisplayDevicesW(
             [MarshalAs(UnmanagedType.LPWStr)] string lpDevice,
             int iDevNum,
             [MarshalAs(UnmanagedType.Struct)] ref DisplayDevice lpDisplayDevice,
             int dwFlags);
 
-        public static bool EnumDisplayDevices(
+        public static bool EnumDisplayDevicesW(
             string device,
             int devNum,
             out string devName)
@@ -37,20 +43,20 @@ namespace RefreshRateTuner.Win32
 #endif
             };
 
-                bool success = EnumDisplayDevices(device, devNum, ref dispDev, 0);
+                bool success = EnumDisplayDevicesW(device, devNum, ref dispDev, 0);
             devName = dispDev.DeviceName;
             return success;
         }
 
-        [DllImport("user32.dll", SetLastError = true, ExactSpelling = true,
-            CharSet = CharSet.Unicode, EntryPoint = "EnumDisplaySettingsW")]
+        [DllImport("User32", SetLastError = true, ExactSpelling = true,
+            CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool EnumDisplaySettings(
+        private static extern bool EnumDisplaySettingsW(
             [MarshalAs(UnmanagedType.LPWStr)] string devName,
             int mode,
             [MarshalAs(UnmanagedType.Struct)] ref DeviceMode devMode);
 
-        public static DisplaySettings EnumDisplaySettings(
+        public static DispSettings EnumDisplaySettingsW(
             string devName,
             int mode)
         {
@@ -64,8 +70,8 @@ namespace RefreshRateTuner.Win32
                 DriverExtra = 0,
             };
 
-            return EnumDisplaySettings(devName, mode, ref devMode)
-                ? new DisplaySettings
+            return EnumDisplaySettingsW(devName, mode, ref devMode)
+                ? new DispSettings
                 {
                     Name = devName,
                     BitsPerPixel = devMode.BitsPerPel,
@@ -76,17 +82,17 @@ namespace RefreshRateTuner.Win32
                 : null;
         }
 
-        [DllImport("user32.dll", SetLastError = true, ExactSpelling = true,
-            CharSet = CharSet.Unicode, EntryPoint = "ChangeDisplaySettingsExW")]
-        private static extern DispChange ChangeDisplaySettingsEx(
-        [MarshalAs(UnmanagedType.LPWStr)] string deviceName,
+        [DllImport("User32", SetLastError = true, ExactSpelling = true,
+            CharSet = CharSet.Unicode)]
+        private static extern DispChange ChangeDisplaySettingsExW(
+            [MarshalAs(UnmanagedType.LPWStr)] string devName,
             [MarshalAs(UnmanagedType.Struct)] ref DeviceMode devMode,
-            IntPtr hwnd,
+            IntPtr hWnd,
             CDSFlags flags,
             IntPtr lParam);
 
         public static DispChange ChangeRefreshRate(
-            [MarshalAs(UnmanagedType.LPWStr)] string deviceName,
+            [MarshalAs(UnmanagedType.LPWStr)] string devName,
             int refreshRate,
             CDSFlags flags)
         {
@@ -102,8 +108,8 @@ namespace RefreshRateTuner.Win32
                 Fields = DM.DisplayFrequency,
             };
 
-            return ChangeDisplaySettingsEx(
-                deviceName, ref devMode, IntPtr.Zero, flags, IntPtr.Zero);
+            return ChangeDisplaySettingsExW(
+                devName, ref devMode, IntPtr.Zero, flags, IntPtr.Zero);
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Unicode)]
@@ -191,7 +197,7 @@ namespace RefreshRateTuner.Win32
             DisplayFrequency = 0x400000,
             ICMMethod = 0x800000,
             ICMIntent = 0x1000000,
-            MeduaType = 0x2000000,
+            MediaType = 0x2000000,
             DitherType = 0x4000000,
             PanningWidth = 0x8000000,
             PanningHeight = 0x10000000,

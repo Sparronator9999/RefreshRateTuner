@@ -28,153 +28,202 @@ namespace RefreshRateTuner
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.ToolStripSeparator sep1;
+            System.Windows.Forms.Label lblDisplay;
+            System.Windows.Forms.Label lblAC;
+            System.Windows.Forms.Button btnRefresh;
+            System.Windows.Forms.Button btnApply;
+            System.Windows.Forms.ToolStripMenuItem tsiShow;
+            System.Windows.Forms.ToolStripMenuItem tsiExit;
+            System.Windows.Forms.ContextMenuStrip TrayMenu;
             this.cboDisplay = new System.Windows.Forms.ComboBox();
             this.cboRateAC = new System.Windows.Forms.ComboBox();
             this.cboRateDC = new System.Windows.Forms.ComboBox();
-            this.lblDisplay = new System.Windows.Forms.Label();
-            this.lblAC = new System.Windows.Forms.Label();
             this.lblDC = new System.Windows.Forms.Label();
-            this.chkBattery = new System.Windows.Forms.CheckBox();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnApply = new System.Windows.Forms.Button();
+            this.chkBatt = new System.Windows.Forms.CheckBox();
+            this.chkSysStart = new System.Windows.Forms.CheckBox();
+            this.TrayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            sep1 = new System.Windows.Forms.ToolStripSeparator();
+            lblDisplay = new System.Windows.Forms.Label();
+            lblAC = new System.Windows.Forms.Label();
+            btnRefresh = new System.Windows.Forms.Button();
+            btnApply = new System.Windows.Forms.Button();
+            tsiShow = new System.Windows.Forms.ToolStripMenuItem();
+            tsiExit = new System.Windows.Forms.ToolStripMenuItem();
+            TrayMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            TrayMenu.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // sep1
+            // 
+            sep1.Name = "sep1";
+            sep1.Size = new System.Drawing.Size(196, 6);
+            // 
+            // lblDisplay
+            // 
+            lblDisplay.AutoSize = true;
+            lblDisplay.Location = new System.Drawing.Point(13, 15);
+            lblDisplay.Name = "lblDisplay";
+            lblDisplay.Size = new System.Drawing.Size(48, 15);
+            lblDisplay.TabIndex = 0;
+            lblDisplay.Text = "Display:";
+            // 
+            // lblAC
+            // 
+            lblAC.AutoSize = true;
+            lblAC.Location = new System.Drawing.Point(13, 69);
+            lblAC.Name = "lblAC";
+            lblAC.Size = new System.Drawing.Size(94, 15);
+            lblAC.TabIndex = 4;
+            lblAC.Text = "Plugged in (AC):";
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.Location = new System.Drawing.Point(226, 12);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new System.Drawing.Size(75, 23);
+            btnRefresh.TabIndex = 2;
+            btnRefresh.Text = "&Refresh";
+            btnRefresh.UseVisualStyleBackColor = true;
+            btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // btnApply
+            // 
+            btnApply.Location = new System.Drawing.Point(226, 132);
+            btnApply.Name = "btnApply";
+            btnApply.Size = new System.Drawing.Size(75, 23);
+            btnApply.TabIndex = 8;
+            btnApply.Text = "&Apply";
+            btnApply.UseVisualStyleBackColor = true;
+            btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            // 
+            // tsiShow
+            // 
+            tsiShow.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            tsiShow.Name = "tsiShow";
+            tsiShow.Size = new System.Drawing.Size(199, 22);
+            tsiShow.Text = "Configure refresh rate";
+            tsiShow.Click += new System.EventHandler(this.ShowConfig);
+            // 
+            // tsiExit
+            // 
+            tsiExit.Name = "tsiExit";
+            tsiExit.Size = new System.Drawing.Size(199, 22);
+            tsiExit.Text = "Exit";
+            tsiExit.Click += new System.EventHandler(this.tsiExit_Click);
             // 
             // cboDisplay
             // 
             this.cboDisplay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDisplay.FormattingEnabled = true;
             this.cboDisplay.Location = new System.Drawing.Point(69, 12);
-            this.cboDisplay.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboDisplay.Name = "cboDisplay";
             this.cboDisplay.Size = new System.Drawing.Size(150, 23);
-            this.cboDisplay.TabIndex = 0;
+            this.cboDisplay.TabIndex = 1;
             this.cboDisplay.SelectedIndexChanged += new System.EventHandler(this.DisplayChanged);
             // 
             // cboRateAC
             // 
             this.cboRateAC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboRateAC.FormattingEnabled = true;
             this.cboRateAC.Location = new System.Drawing.Point(115, 66);
-            this.cboRateAC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboRateAC.Name = "cboRateAC";
             this.cboRateAC.Size = new System.Drawing.Size(185, 23);
-            this.cboRateAC.TabIndex = 1;
+            this.cboRateAC.TabIndex = 5;
             this.cboRateAC.SelectedIndexChanged += new System.EventHandler(this.ACRateChanged);
             // 
             // cboRateDC
             // 
             this.cboRateDC.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRateDC.Enabled = false;
-            this.cboRateDC.FormattingEnabled = true;
             this.cboRateDC.Location = new System.Drawing.Point(115, 95);
-            this.cboRateDC.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.cboRateDC.Name = "cboRateDC";
             this.cboRateDC.Size = new System.Drawing.Size(185, 23);
-            this.cboRateDC.TabIndex = 2;
+            this.cboRateDC.TabIndex = 7;
             this.cboRateDC.SelectedIndexChanged += new System.EventHandler(this.DCRateChanged);
-            // 
-            // lblDisplay
-            // 
-            this.lblDisplay.AutoSize = true;
-            this.lblDisplay.Location = new System.Drawing.Point(13, 15);
-            this.lblDisplay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblDisplay.Name = "lblDisplay";
-            this.lblDisplay.Size = new System.Drawing.Size(48, 15);
-            this.lblDisplay.TabIndex = 3;
-            this.lblDisplay.Text = "Display:";
-            // 
-            // lblAC
-            // 
-            this.lblAC.AutoSize = true;
-            this.lblAC.Location = new System.Drawing.Point(13, 69);
-            this.lblAC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAC.Name = "lblAC";
-            this.lblAC.Size = new System.Drawing.Size(94, 15);
-            this.lblAC.TabIndex = 4;
-            this.lblAC.Text = "Plugged in (AC):";
             // 
             // lblDC
             // 
             this.lblDC.AutoSize = true;
             this.lblDC.Enabled = false;
             this.lblDC.Location = new System.Drawing.Point(14, 98);
-            this.lblDC.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDC.Name = "lblDC";
             this.lblDC.Size = new System.Drawing.Size(93, 15);
-            this.lblDC.TabIndex = 5;
+            this.lblDC.TabIndex = 6;
             this.lblDC.Text = "On battery (DC):";
             // 
-            // chkBattery
+            // chkBatt
             // 
-            this.chkBattery.AutoSize = true;
-            this.chkBattery.Location = new System.Drawing.Point(13, 41);
-            this.chkBattery.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.chkBattery.Name = "chkBattery";
-            this.chkBattery.Size = new System.Drawing.Size(186, 19);
-            this.chkBattery.TabIndex = 6;
-            this.chkBattery.Text = "Change refresh rate on battery";
-            this.chkBattery.UseVisualStyleBackColor = true;
-            this.chkBattery.CheckedChanged += new System.EventHandler(this.BatteryRateToggle);
+            this.chkBatt.AutoSize = true;
+            this.chkBatt.Location = new System.Drawing.Point(13, 41);
+            this.chkBatt.Name = "chkBatt";
+            this.chkBatt.Size = new System.Drawing.Size(186, 19);
+            this.chkBatt.TabIndex = 3;
+            this.chkBatt.Text = "Change refresh rate on &battery";
+            this.chkBatt.UseVisualStyleBackColor = true;
+            this.chkBatt.CheckedChanged += new System.EventHandler(this.BattRateToggle);
             // 
-            // btnRefresh
+            // chkSysStart
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(226, 12);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 7;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.chkSysStart.AutoSize = true;
+            this.chkSysStart.Location = new System.Drawing.Point(12, 135);
+            this.chkSysStart.Name = "chkSysStart";
+            this.chkSysStart.Size = new System.Drawing.Size(95, 19);
+            this.chkSysStart.TabIndex = 9;
+            this.chkSysStart.Text = "&Start on boot";
+            this.chkSysStart.UseVisualStyleBackColor = true;
+            this.chkSysStart.CheckedChanged += new System.EventHandler(this.ToggleSysStart);
             // 
-            // btnApply
+            // TrayIcon
             // 
-            this.btnApply.Location = new System.Drawing.Point(226, 132);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 8;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
+            this.TrayIcon.ContextMenuStrip = TrayMenu;
+            this.TrayIcon.Visible = true;
+            this.TrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.ShowConfig);
+            // 
+            // TrayMenu
+            // 
+            TrayMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            tsiShow,
+            sep1,
+            tsiExit});
+            TrayMenu.Name = "TrayMenu";
+            TrayMenu.Size = new System.Drawing.Size(200, 54);
             // 
             // MainForm
             // 
-            this.AcceptButton = this.btnApply;
+            this.AcceptButton = btnApply;
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(313, 167);
-            this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.btnRefresh);
-            this.Controls.Add(this.chkBattery);
+            this.Controls.Add(this.chkSysStart);
+            this.Controls.Add(btnApply);
+            this.Controls.Add(btnRefresh);
+            this.Controls.Add(this.chkBatt);
             this.Controls.Add(this.lblDC);
-            this.Controls.Add(this.lblAC);
-            this.Controls.Add(this.lblDisplay);
+            this.Controls.Add(lblAC);
+            this.Controls.Add(lblDisplay);
             this.Controls.Add(this.cboRateDC);
             this.Controls.Add(this.cboRateAC);
             this.Controls.Add(this.cboDisplay);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Refresh Rate Tuner";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFormClosed);
+            TrayMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox cboDisplay;
         private System.Windows.Forms.ComboBox cboRateAC;
         private System.Windows.Forms.ComboBox cboRateDC;
-        private System.Windows.Forms.Label lblDisplay;
-        private System.Windows.Forms.Label lblAC;
+        private System.Windows.Forms.CheckBox chkBatt;
+        private System.Windows.Forms.CheckBox chkSysStart;
+        private System.Windows.Forms.NotifyIcon TrayIcon;
+        private System.Windows.Forms.ComboBox cboDisplay;
         private System.Windows.Forms.Label lblDC;
-        private System.Windows.Forms.CheckBox chkBattery;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Button btnApply;
     }
 }
 

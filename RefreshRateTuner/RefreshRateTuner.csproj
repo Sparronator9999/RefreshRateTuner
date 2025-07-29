@@ -32,7 +32,4 @@
     <ItemGroup>
       <None Include="MainForm.resx" />
     </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\RefreshRateTuner.Config\RefreshRateTuner.Config.csproj" />
-    </ItemGroup>
 </Project>

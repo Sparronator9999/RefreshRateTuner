@@ -5,8 +5,6 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefreshRateTuner", "RefreshRateTuner\RefreshRateTuner.csproj", "{A37ACB85-793E-4C08-B588-3158973E09AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefreshRateTuner.Config", "RefreshRateTuner.Config\RefreshRateTuner.Config.csproj", "{7B3EBE63-A194-452B-B9C8-A31F6542E4CE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{A37ACB85-793E-4C08-B588-3158973E09AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A37ACB85-793E-4C08-B588-3158973E09AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A37ACB85-793E-4C08-B588-3158973E09AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B3EBE63-A194-452B-B9C8-A31F6542E4CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B3EBE63-A194-452B-B9C8-A31F6542E4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B3EBE63-A194-452B-B9C8-A31F6542E4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B3EBE63-A194-452B-B9C8-A31F6542E4CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
