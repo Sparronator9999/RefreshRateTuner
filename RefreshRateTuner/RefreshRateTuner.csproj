@@ -18,12 +18,16 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <RuntimeIdentifiers>win-x64;win-x86</RuntimeIdentifiers>
         <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>rrt.ico</ApplicationIcon>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(TargetFramework)' != 'net8.0-windows' ">
         <RuntimeIdentifiers>win7-x64;win7-x86;win-x64;win-x86</RuntimeIdentifiers>
     </PropertyGroup>
     <ItemGroup>
       <EmbeddedResource Remove="MainForm.resx" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="rrt.ico" />
     </ItemGroup>
     <ItemGroup>
       <None Include="MainForm.resx" />

@@ -10,6 +10,8 @@ A lightweight screen refresh rate changer for Windows.
 
 - **Automatic refresh rate switching:** Change your laptop refresh rate
   when running on battery to save power.
+- **Multi-display support:** Refresh Rate Tuner can automatically apply refresh
+  rates for multiple connected displays.
 - **Lightweight:** Refresh Rate Tuner is only a few KB in size, and is
   designed to be light on your laptop's CPU.
 
@@ -29,17 +31,13 @@ Any computer or laptop with a display that has more than one refresh rate.
 
 ### What versions of Windows will this run on?
 
-Any version of Windows that can run .NET Framework 4.8 (Windows 7 SP1 and later), both 32-bit and 64-bit. ARM should work as well, but I haven't tested it (due to lack of ARM-powered laptop).
+In theory, any version of Windows that can run any .NET version supported by this project (either .NET Framework 3.5 or 4.8, or .NET 8), i.e. Windows XP SP2 or later (since it is .NET Framework 3.5's minimum supported Windows version). x86, x64, and ARM architectures should all work (where supported by the OS/.NET version).
 
 ### What versions of Windows do you support?
 
-Windows 10 and 11, both 64-bit.
+Windows 10 and 11, both 64-bit. The .NET Framework 4.8 or .NET 8 variants are recommended on these OSes.
 
 Please don't daily drive Windows 7, XP, etc. in 2025.
-
-### .NET (Core) 5/6/8/<insert latest .NET version>!
-
-Soon™.
 
 ## Compiling
 
@@ -50,7 +48,8 @@ Soon™.
 3.  Extract the downloaded code, if needed.
 4.  Open `RefreshRateTuner.sln` in Visual Studio.
 5.  Click `Build` > `Build Solution` to build everything.
-6.  Your output, assuming default build settings, is located in `RefreshRateTuner\bin\Debug\net48\`.
+6.  Your output, assuming default build settings, is located in `RefreshRateTuner\bin\Debug\`.
+    The subfolders each contain a variant of Refresh Rate Tuner compiled against a different version of .NET.
 7.  ???
 8.  Profit!
 
@@ -62,8 +61,8 @@ Soon™.
 4.  Run `msbuild RefreshRateTuner.sln /p:platform="Any CPU" /p:configuration="Debug"` to build
     the project, substituting `Debug` with `Release` (or `Any CPU` with `x86` or `x64`)
     if you want a release build instead.
-5.  Your output should be located in `RefreshRateTuner\bin\Debug\net48\`, assuming you built
-    with the above unmodified command.
+5.  Your output should be located in `RefreshRateTuner\bin\Debug\`, assuming you built
+    with the above unmodified command. The subfolders each contain a variant of Refresh Rate Tuner compiled against a different version of .NET.
 6.  ???
 7.  Profit!
 
