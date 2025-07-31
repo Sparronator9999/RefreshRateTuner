@@ -8,6 +8,7 @@ on:
       - "**.csproj"
       - "**.resx"
       - "**build.yml"
+      - "**.iss"
 
 jobs:
   build:
@@ -43,12 +44,21 @@ jobs:
     - name: Restore solution (including NuGet packages for solution)
       run: msbuild.exe /t:restore /p:configuration="${{ matrix.config }}" /p:RestoreLockedMode=true
 
-    - name: Build solution
+    - name: Compile solution
       run: msbuild.exe RefreshRateTuner.sln /nologo /nr:false /p:DeployOnBuild=true /p:platform="Any CPU" /p:configuration="${{ matrix.config }}"
 
-    - name: Upload build artifact
+    - name: Copy LICENSE to build path
+      run: copy LICENSE.md RefreshRateTuner\bin\${{ matrix.config }}\net48
+
+    - name: Compile installer
+      uses: Minionguyjpro/Inno-Setup-Action@v1.2.5
+      with:
+        path: Installer/RRT-Setup.iss
+        options: /O+ "/DBuildConfig=${{ matrix.config }}"
+
+    - name: Upload compiled installer artifact
       uses: actions/upload-artifact@v4
       with:
-        name: "RefreshRateTuner-${{ github.ref_name }}-${{ env.sha_short }}-${{ matrix.config }}"
-        path: "./RefreshRateTuner/bin/${{ matrix.config }}/net48/"
+        name: "RRT-${{ github.ref_name }}-${{ env.sha_short }}-${{ matrix.config }}"
+        path: "./Output/"
         compression-level: 9

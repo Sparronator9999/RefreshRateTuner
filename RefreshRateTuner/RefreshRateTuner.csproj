@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <AssemblyName>RRT</AssemblyName>
         <AssemblyTitle>Refresh Rate Tuner</AssemblyTitle>
         <Title>Refresh Rate Tuner</Title>
         <Authors>Sparronator9999</Authors>
